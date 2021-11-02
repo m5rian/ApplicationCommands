@@ -15,37 +15,20 @@
     }
 
     let bot;
-    let slashCommands = []
+    let slashCommands = [];
 
-    /**
-     * @returns {Promise<Response>} Returns a json promise of the bots user data.
-     */
-    async function loadBotData() {
-        const headers = new Headers();
-        headers.append("Authorization", "Bot " + getCookie("token"))
-
-        const promise = await fetch("https://discord.com/api/v6/users/@me", {headers: headers})
-        const json = await promise.json()
-
-        bot = json
-        return json
-    }
-
-    /**
-     *
-     * @returns {Promise<Response<any, Record<string, any>, number>>}
-     */
-    async function loadSlashCommands() {
-        const headers = new Headers();
-        headers.append("token", getCookie("token"))
-        headers.append("id", bot["id"])
+    async function loadData() {
+        bot = await (await fetch("https://discord.com/api/v6/users/@me", {headers: {Authorization: "Bot " + getCookie("token")}})).json()
 
         const url = window.location.protocol + "//" + window.location.hostname + ":8081/slashCommands"
-        const promise = await fetch(url, {headers: headers})
-        const json = await promise.json()
+        slashCommands = await (await fetch(url, {
+            headers: {
+                token: getCookie("token"),
+                id: bot["id"]
+            }
+        })).json()
 
-        slashCommands = json
-        return json
+        return true
     }
 
     function addCommand() {
@@ -62,11 +45,11 @@
 </script>
 
 <section>
-    {#await loadBotData()}
+    {#await loadData()}
         <div class="loading">
             <i class="fas fa-spinner spinner"></i>
         </div>
-    {:then data}
+    {:then _unused}
         <div class="navbar">
             <div class="bot-info">
                 <img src={"https://cdn.discordapp.com/avatars/" + bot["id"] + "/" + bot["avatar"] + ".png"} alt=""/>
@@ -76,17 +59,15 @@
                 <i class="fas fa-sign-out-alt logout-button" on:click={onLogout}></i>
             </div>
         </div>
-        {#await loadSlashCommands() then commands}
-            <div class="slashCommands-wrapper">
-                {#each slashCommands as slashCommand}
-                    <Command data={slashCommand}/>
-                {/each}
-            </div>
 
-            <div class="add-command">
-                <i class="fas fa-plus-square" on:click={addCommand}></i>
-            </div>
-        {/await}
+        <div class="slashCommands-wrapper">
+            {#each slashCommands as slashCommand}
+                <Command data={slashCommand}/>
+            {/each}
+        </div>
+        <div class="add-command">
+            <i class="fas fa-plus-square" on:click={addCommand}></i>
+        </div>
     {/await}
 </section>
 

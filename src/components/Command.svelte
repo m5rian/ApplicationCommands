@@ -1,9 +1,12 @@
 <script>
-    import Option from "./Option.svelte";
-    import Subcommand from "./Subcommand.svelte";
-    import SubcommandGroup from "./SubcommandGroup.svelte";
+    import CommandSettings from "./CommandSettings.svelte";
 
     export let data;
+    let showSettings = false;
+
+    function showSettingsTrue() {
+        showSettings = true;
+    }
 </script>
 
 <div class="slashCommand">
@@ -11,17 +14,13 @@
         <input type="text" value={data["name"]}/>
         <input class="slashCommand-description" value={data["description"]}/>
     </div>
-    {#each data["options"] as option}
-        {#if data["type"] > 2 }
-            <Option data={option}/>
-        {:else if data["type"] === 1}
-            <Subcommand data={option}/>
-        {:else if data["type"] === 2}
-            <SubcommandGroup data={option}/>
-        {/if}
-
-    {/each}
-    <i class="fas fa-trash slashCommand-delete"></i>
+    <div class="slashCommand-options">
+        <div>
+            <i class="fas fa-cog slashCommand-settings" on:click={showSettingsTrue}></i>
+            <CommandSettings bind:active={showSettings} data={data["options"]}/>
+        </div>
+        <i class="fas fa-trash slashCommand-delete"></i>
+    </div>
 </div>
 
 <style>
@@ -66,8 +65,22 @@
         font-size: 0.5rem;
     }
 
+    .slashCommand-options {
+        display: flex;
+        align-items: center;
+    }
+
     .slashCommand-delete {
         color: #F04747;
         margin-right: 1rem;
+    }
+
+    .slashCommand-settings {
+        color: #ffffff;
+        margin-right: 0.5rem;
+    }
+
+    .slashCommand-settings:hover {
+        color: #7289DA;
     }
 </style>

@@ -6,8 +6,6 @@
     export let data;
     export let active = false;
 
-    console.log(data)
-
     function closeOptions() {
         active = false;
     }

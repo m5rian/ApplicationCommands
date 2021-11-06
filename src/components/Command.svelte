@@ -1,7 +1,28 @@
 <script>
     import CommandSettings from "./CommandSettings.svelte";
+    import SubcommandGroup from "./optionTypes/SubcommandGroup.svelte";
+    import Subcommand from "./optionTypes/Subcommand.svelte";
 
-    export let data;
+    export let slashCommand;
+    let subcommandGroups = [];
+    let subcommands = [];
+    let options = [];
+
+    for (let i = 0; i < slashCommand["options"].length; i++) {
+        let element = slashCommand["options"][i];
+        const elementType = element["type"];
+        switch (elementType) {
+            case 1:
+                subcommands.push(element);
+                break;
+            case 2:
+                subcommandGroups.push(element);
+                break;
+            default:
+                options.push(element);
+        }
+    }
+
     let showSettings = false;
 
     function showSettingsTrue() {
@@ -9,21 +30,76 @@
     }
 </script>
 
-<div class="slashCommand">
-    <div class="slashCommand-name-description">
-        <input type="text" value={data["name"]}/>
-        <input class="slashCommand-description" value={data["description"]}/>
-    </div>
-    <div class="slashCommand-options">
-        <div>
-            <i class="fas fa-cog slashCommand-settings" on:click={showSettingsTrue}></i>
-            <CommandSettings bind:active={showSettings} data={data["options"]}/>
+<div class="slash-command-wrapper">
+    <!-- Slash command itself -->
+    <div class="root item">
+        <div class="slash-command-info">
+            <input type="text" value={slashCommand["name"]}/>
+            <input class="slashCommand-description" value={slashCommand["description"]}/>
         </div>
-        <i class="fas fa-trash slashCommand-delete"></i>
+        <div class="slash-command-settings">
+            <div>
+                <i class="fas fa-cog icon-cog" on:click={showSettingsTrue}></i>
+                <CommandSettings bind:active={showSettings} data={slashCommand["options"]}/>
+            </div>
+            <i class="fas fa-trash icon-delete"></i>
+        </div>
+    </div>
+
+    <!-- Subcommand groups -->
+    <div class="slash-command-children">
+        {#each subcommandGroups as subcommandGroup}
+            <SubcommandGroup/>
+        {/each}
+    </div>
+
+    <!-- Subcommands -->
+    <div class="slash-command-children">
+        {#each subcommands as subcommand}
+            <Subcommand subcommand={subcommand} margin="1"/>
+        {/each}
     </div>
 </div>
 
 <style>
+    .root {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .slash-command-wrapper {
+        width: 75rem;
+        max-width: 75%;
+    }
+
+    .slash-command-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .slashCommand-description {
+        font-size: 0.5rem;
+    }
+
+    .slash-command-settings {
+        display: flex;
+        align-items: center;
+    }
+
+    .icon-delete {
+        color: #F04747;
+        margin-right: 1rem;
+    }
+
+    .icon-cog {
+        color: #ffffff;
+        margin-right: 0.5rem;
+    }
+
+    .icon-cog:hover {
+        color: #7289DA;
+    }
 
     input {
         font-size: 1rem;
@@ -38,49 +114,5 @@
 
     input:focus {
         outline: none;
-    }
-
-
-    .slashCommand {
-        background-color: #424549;
-        width: 45rem;
-
-        padding: 0.5rem;
-        margin: 0.5rem;
-
-        border-radius: 1rem;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .slashCommand-name-description {
-        display: flex;
-        flex-direction: column;
-        margin-left: 1rem;
-    }
-
-    .slashCommand-description {
-        font-size: 0.5rem;
-    }
-
-    .slashCommand-options {
-        display: flex;
-        align-items: center;
-    }
-
-    .slashCommand-delete {
-        color: #F04747;
-        margin-right: 1rem;
-    }
-
-    .slashCommand-settings {
-        color: #ffffff;
-        margin-right: 0.5rem;
-    }
-
-    .slashCommand-settings:hover {
-        color: #7289DA;
     }
 </style>

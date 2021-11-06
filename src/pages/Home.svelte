@@ -1,4 +1,5 @@
 <script>
+    import {dndzone} from "svelte-dnd-action";
     import {deleteCookie, getCookie} from "../Utilities";
     import Command from "../components/Command.svelte";
 
@@ -42,6 +43,15 @@
         }
         slashCommands = [...slashCommands, commandTemplate]
     }
+
+    function handleDndConsider(e) {
+        slashCommands = e.detail.items
+    }
+
+    function handleDndFinalize(e) {
+        slashCommands = e.detail.items
+        console.log(slashCommands)
+    }
 </script>
 
 <section>
@@ -60,9 +70,10 @@
             </div>
         </div>
 
-        <div class="slashCommands-wrapper">
+        <div class="slashCommands-wrapper" use:dndzone="{{items: slashCommands, dropFromOthersDisabled: true,flipDurationMs: 500, morphDisabled: true}}" on:consider="{handleDndConsider}"
+             on:finalize="{handleDndFinalize}">
             {#each slashCommands as slashCommand}
-                <Command data={slashCommand}/>
+                <Command slashCommand={slashCommand}/>
             {/each}
         </div>
         <div class="add-command">
@@ -120,11 +131,6 @@
         width: 5rem;
     }
 
-    .navbar .byebye {
-        display: flex;
-        align-items: center;
-    }
-
     .logout-button {
         color: #ffff;
         font-size: 2rem;
@@ -135,7 +141,6 @@
         color: #7289DA;
     }
 
-
     .slashCommands-wrapper {
         margin-top: 1rem;
 
@@ -143,5 +148,4 @@
         flex-direction: column;
         align-items: center;
     }
-
 </style>

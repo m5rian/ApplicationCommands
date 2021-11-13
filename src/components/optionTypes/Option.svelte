@@ -1,10 +1,23 @@
 <script>
+    import OptionSettings from "./OptionSettings.svelte";
+
     export let option;
+    let test = []
     export let margin = "0"; // Amount of left margin
+
+    let showSettings = false;
+
 </script>
 <div class="item child option margin-{margin}">
-    <i class="fas fa-file"></i>
-    <p>{option["name"]}</p> <!-- Name of option -->
+    <div>
+        <i class="fas fa-file"></i>
+        <p>{option["name"]}</p> <!-- Name of option -->
+    </div>
+
+    <div>
+        <i class="fas fa-cog icon-cog" on:click={showSettings = true}></i>
+        <OptionSettings bind:active={showSettings} data={test}/>
+    </div>
 </div>
 
 <style>

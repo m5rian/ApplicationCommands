@@ -1,13 +1,15 @@
 <script>
-    import CommandSettings from "./CommandSettings.svelte";
+    import CommandSettings from "./optionTypes/OptionSettings.svelte";
     import SubcommandGroup from "./optionTypes/SubcommandGroup.svelte";
     import Subcommand from "./optionTypes/Subcommand.svelte";
 
+    export let slashCommands;
     export let slashCommand;
     let subcommandGroups = [];
     let subcommands = [];
     let options = [];
 
+    if (slashCommand["options"] != null) {
     for (let i = 0; i < slashCommand["options"].length; i++) {
         let element = slashCommand["options"][i];
         const elementType = element["type"];
@@ -21,12 +23,19 @@
             default:
                 options.push(element);
         }
-    }
+    }}
 
     let showSettings = false;
 
     function showSettingsTrue() {
         showSettings = true;
+    }
+
+    function deleteSlashCommand() {
+        console.log("tet")
+        slashCommands = slashCommands.filter(value => {
+            return value !== slashCommand
+        });
     }
 </script>
 
@@ -38,11 +47,7 @@
             <input class="slashCommand-description" value={slashCommand["description"]}/>
         </div>
         <div class="slash-command-settings">
-            <div>
-                <i class="fas fa-cog icon-cog" on:click={showSettingsTrue}></i>
-                <CommandSettings bind:active={showSettings} data={slashCommand["options"]}/>
-            </div>
-            <i class="fas fa-trash icon-delete"></i>
+            <i class="fas fa-trash icon-delete" on:click={deleteSlashCommand}></i>
         </div>
     </div>
 
@@ -69,8 +74,7 @@
     }
 
     .slash-command-wrapper {
-        width: 75rem;
-        max-width: 75%;
+        width: 75vw;
     }
 
     .slash-command-info {

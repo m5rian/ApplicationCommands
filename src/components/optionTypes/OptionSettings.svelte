@@ -1,7 +1,7 @@
 <script>
-    import SubcommandGroup from "./optionTypes/SubcommandGroup.svelte";
-    import Subcommand from "./optionTypes/Subcommand.svelte";
-    import Option from "./optionTypes/Option.svelte";
+    import SubcommandGroup from "./SubcommandGroup.svelte";
+    import Subcommand from "./Subcommand.svelte";
+    import Option from "./Option.svelte";
 
     export let data;
     export let active = false;
@@ -9,8 +9,6 @@
     function closeOptions() {
         active = false;
     }
-
-
 </script>
 
 <div class="popup {active ? 'active': ''}">

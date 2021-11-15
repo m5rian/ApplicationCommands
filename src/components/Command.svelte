@@ -1,5 +1,4 @@
 <script>
-    import CommandSettings from "./optionTypes/OptionSettings.svelte";
     import SubcommandGroup from "./optionTypes/SubcommandGroup.svelte";
     import Subcommand from "./optionTypes/Subcommand.svelte";
 
@@ -10,20 +9,21 @@
     let options = [];
 
     if (slashCommand["options"] != null) {
-    for (let i = 0; i < slashCommand["options"].length; i++) {
-        let element = slashCommand["options"][i];
-        const elementType = element["type"];
-        switch (elementType) {
-            case 1:
-                subcommands.push(element);
-                break;
-            case 2:
-                subcommandGroups.push(element);
-                break;
-            default:
-                options.push(element);
+        for (let i = 0; i < slashCommand["options"].length; i++) {
+            let element = slashCommand["options"][i];
+            const elementType = element["type"];
+            switch (elementType) {
+                case 1:
+                    subcommands.push(element);
+                    break;
+                case 2:
+                    subcommandGroups.push(element);
+                    break;
+                default:
+                    options.push(element);
+            }
         }
-    }}
+    }
 
     let showSettings = false;
 
@@ -75,6 +75,10 @@
 
     .slash-command-wrapper {
         width: 75vw;
+        padding: 0.5rem;
+        background-color: #32353B;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
     }
 
     .slash-command-info {
@@ -91,23 +95,9 @@
         align-items: center;
     }
 
-    .icon-delete {
-        color: #F04747;
-        margin-right: 1rem;
-    }
-
-    .icon-cog {
-        color: #ffffff;
-        margin-right: 0.5rem;
-    }
-
-    .icon-cog:hover {
-        color: #7289DA;
-    }
-
     input {
         font-size: 1rem;
-        color: #ffff;
+        color: #FFFF;
         border: none;
         background-image: none;
         background-color: transparent;
@@ -118,5 +108,10 @@
 
     input:focus {
         outline: none;
+    }
+
+    .add-item-button {
+        color: #7289DA;
+        cursor: pointer;
     }
 </style>

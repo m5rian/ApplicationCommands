@@ -12,7 +12,7 @@
 
 <div class="subcommand-wrapper">
     <div class="item child subcommand margin-{margin}">
-        <i class="fas fa-folder"></i>
+        <i class="fas fa-folder icon-option-type"></i>
         <p>{subcommand["name"]}</p> <!-- Name of subcommand -->
     </div>
 
@@ -26,12 +26,6 @@
     .subcommand > i,
     .subcommand > p {
         transition: color cubic-bezier(.67, .01, .58, .99) 0.25s;
-    }
-
-    .subcommand > i {
-        color: #ffffff;
-        font-size: 1.5rem;
-        margin-right: 0.5rem;
     }
 
     .subcommand:hover > p,

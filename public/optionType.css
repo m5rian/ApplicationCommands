@@ -1,12 +1,9 @@
 .item {
-    background-color: #424549;
-
+    background-color: #2F3136;
     padding: 0.5rem;
-    margin: 0.5rem;
-
     border-radius: 0.75rem;
+    margin: 0.25rem;
 }
-
 .child {
     display: flex;
     align-items: center;
@@ -15,7 +12,22 @@
 .margin-1 {
     margin-left: 2rem;
 }
-
 .margin-2 {
     margin-left: 4rem;
+}
+
+/* Icons */
+.icon-delete {
+    color: #F04747;
+    margin-right: 0.5rem;
+}
+.icon-cog {
+    color: #ffffff;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+}
+.icon-option-type {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin: 0 0.5rem;
 }

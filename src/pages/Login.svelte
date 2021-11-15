@@ -69,6 +69,7 @@
         height: 2rem;
 
         padding: 0 0.25rem;
+        border-radius: 0.5rem;
     }
 
     input:focus {

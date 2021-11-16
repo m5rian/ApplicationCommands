@@ -44,14 +44,26 @@
         }
         subcommands = [...subcommands, templateSubcommand]
     }
+
+    function updateName(input) {
+        slashCommands = slashCommands.filter(item => item !== slashCommand)
+        slashCommand.name = input
+        slashCommands = [...slashCommands, slashCommand]
+    }
+
+    function updateDescription(input) {
+        slashCommands = slashCommands.filter(item => item !== slashCommand)
+        slashCommand.description = input
+        slashCommands = [...slashCommands, slashCommand]
+    }
 </script>
 
 <div class="slash-command-wrapper">
     <!-- Slash command itself -->
     <div class="root item">
         <div class="slash-command-info">
-            <input type="text" value={slashCommand["name"]}/>
-            <input class="slashCommand-description" value={slashCommand["description"]}/>
+            <input type="text" value={slashCommand["name"]} on:change={event => updateName(event.target.value)}/>
+            <input class="slashCommand-description" value={slashCommand["description"]} on:change={event => updateDescription(event.target.value)}/>
         </div>
         <div>
             <i class="fas fa-plus-square icon-add" on:click={addSubcommand}></i>

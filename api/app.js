@@ -31,6 +31,9 @@ app.get("/update", async (req, res) => {
     const id = req.header("id")
     const slashCommands = JSON.parse(req.header("slashCommands"))
 
+    console.log("what i got is this")
+    console.log(slashCommands)
+
     const url = "https://discord.com/api/v6/applications/" + id + "/commands"
     const promise = await fetch(url, {
         method: "PUT",

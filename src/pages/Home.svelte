@@ -78,13 +78,13 @@
     }
 
 
-    export async function saveSlashCommands(command) {
+    export async function saveSlashCommands() {
         const url = window.location.protocol + "//" + window.location.hostname + ":8081/update"
         const response = await (await fetch(url, {
             headers: {
                 token: getCookie("token"),
                 id: bot["id"],
-                slashCommands: JSON.stringify(command, null)
+                slashCommands: JSON.stringify(slashCommands, null)
             }
         })).json()
         window.location.reload(true);

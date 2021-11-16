@@ -33,7 +33,8 @@
     let slashCommands = [];
 
     async function loadData() {
-        bot = await (await fetch("https://discord.com/api/v6/users/@me", {headers: {Authorization: "Bot " + getCookie("token")}})).json()
+        const urlBot = window.location.protocol + "//" + window.location.hostname + ":8081/bot"
+        bot = await (await fetch(urlBot, {headers: {token: getCookie("token"),}})).json()
 
         const url = window.location.protocol + "//" + window.location.hostname + ":8081/retrieve"
         slashCommands = await (await fetch(url, {

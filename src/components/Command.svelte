@@ -32,10 +32,7 @@
     }
 
     function deleteSlashCommand() {
-        console.log("tet")
-        slashCommands = slashCommands.filter(value => {
-            return value !== slashCommand
-        });
+        slashCommands = slashCommands.filter(value => value !== slashCommand);
     }
 </script>
 
@@ -46,7 +43,8 @@
             <input type="text" value={slashCommand["name"]}/>
             <input class="slashCommand-description" value={slashCommand["description"]}/>
         </div>
-        <div class="slash-command-settings">
+        <div>
+            <i class="fas fa-plus-square icon-add"></i>
             <i class="fas fa-trash icon-delete" on:click={deleteSlashCommand}></i>
         </div>
     </div>
@@ -61,7 +59,7 @@
     <!-- Subcommands -->
     <div class="slash-command-children">
         {#each subcommands as subcommand}
-            <Subcommand subcommand={subcommand} margin="1"/>
+            <Subcommand bind:subcommands bind:subcommand={subcommand} margin="1"/>
         {/each}
     </div>
 </div>
@@ -88,11 +86,6 @@
 
     .slashCommand-description {
         font-size: 0.5rem;
-    }
-
-    .slash-command-settings {
-        display: flex;
-        align-items: center;
     }
 
     input {

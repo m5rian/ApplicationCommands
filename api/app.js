@@ -68,6 +68,23 @@ app.post("/create", async (req, res) => {
     res.send(response);
 })
 
+app.get("/bot", async (req, res) => {
+    const token = req.header("token");
+
+    const url = "https://discord.com/api/v6/users/@me"
+    const promise = await fetch(url, {
+        method: "GET",
+        headers: {
+            Authorization: "Bot " + token
+        },
+    })
+    const response = await promise.json()
+
+    res.status(200)
+    console.log(response)
+    res.send(response);
+})
+
 app.listen(8081, () => {
     console.log("App's running on port 8081");
 });

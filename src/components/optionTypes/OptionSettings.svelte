@@ -3,7 +3,7 @@
     import Subcommand from "./Subcommand.svelte";
     import Option from "./Option.svelte";
 
-    export let data;
+    export let data = [];
     export let active = false;
 
     function closeOptions() {

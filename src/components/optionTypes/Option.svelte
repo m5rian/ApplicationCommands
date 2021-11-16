@@ -4,8 +4,13 @@
     export let margin = "0" // Amount of left margin
     export let options
     export let option
-
     let showSettings = false;
+    export let dnd
+    $: dnd = showSettings
+
+    function openSettings() {
+        showSettings = true
+    }
 
     function deleteOption() {
         options = options.filter(item => item !== option)
@@ -18,10 +23,9 @@
     </div>
 
     <div>
-        <i class="fas fa-cog icon-cog" on:click={showSettings = true}></i>
-        <i class="fas fa-plus-square icon-add"></i>
+        <i class="fas fa-cog icon-cog" on:click={openSettings}></i>
         <i class="fas fa-trash icon-delete" on:click={deleteOption}></i>
-        <OptionSettings bind:active={showSettings}/>
+        <OptionSettings bind:active={showSettings} bind:option/>
     </div>
 </div>
 

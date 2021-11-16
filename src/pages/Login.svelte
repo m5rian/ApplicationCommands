@@ -62,7 +62,7 @@
         align-items: center;
     }
 
-    input, button, select, textarea {
+    input {
         border: none;
 
         width: 15rem;

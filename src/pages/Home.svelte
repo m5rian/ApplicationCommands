@@ -12,7 +12,6 @@
 
     function handleDndFinalize(e) {
         slashCommands = e.detail.items
-        console.log(slashCommands)
     }
 
 
@@ -31,6 +30,7 @@
 
     let bot;
     let slashCommands = [];
+    let dnd = false;
 
     async function loadData() {
         const urlBot = window.location.protocol + "//" + window.location.hostname + ":8081/bot"
@@ -58,7 +58,6 @@
 
     async function createSlashCommand(command) {
         const body = JSON.stringify(command)
-        console.log(body);
         const url = window.location.protocol + "//" + window.location.hostname + ":8081/create"
         const response = await (await fetch(url, {
             method: "POST",
@@ -68,7 +67,6 @@
                 json: body
             }
         })).json()
-        console.log(response);
         window.location.reload(true);
     }
 
@@ -89,7 +87,6 @@
                 slashCommands: JSON.stringify(command, null)
             }
         })).json()
-        console.log(response);
         window.location.reload(true);
     }
 </script>
@@ -111,12 +108,12 @@
         </div>
 
         <div class="slashCommands-wrapper"
-             use:dndzone="{{items: slashCommands, dropFromOthersDisabled: true, flipDurationMs: 500, morphDisabled: true}}"
+             use:dndzone="{{items: slashCommands, dropFromOthersDisabled: true, flipDurationMs: 500, morphDisabled: true, dragDisabled: dnd}}"
              on:consider="{handleDndConsider}"
              on:finalize="{handleDndFinalize}">
             {#each slashCommands as slashCommand (slashCommand.id)}
                 <div animate:flip={{duration: flipDurationMs}}>
-                    <Command slashCommand={slashCommand} bind:slashCommands={slashCommands}/>
+                    <Command bind:slashCommands bind:slashCommand={slashCommand} bind:dnd/>
                 </div>
             {/each}
         </div>

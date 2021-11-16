@@ -4,6 +4,7 @@
     export let margin = "0"; // Amount of left margin
     export let subcommands; // All subcommands
     export let subcommand;
+    export let dnd;
 
     let options = [];
     if (subcommand["options"] !== undefined) {
@@ -12,6 +13,14 @@
 
     function deleteSubcommand() {
         subcommands = subcommands.filter(value => value !== subcommand);
+    }
+    function addOption() {
+        const templateOption = {
+            type: 3,
+            name: "A very cool option type",
+            description: "Most of the time here you explain in more detail what the option type is bruh"
+        }
+        options = [...options, templateOption]
     }
 </script>
 
@@ -23,14 +32,14 @@
             <p>{subcommand["name"]}</p> <!-- Name of subcommand -->
         </div>
         <div>
-            <i class="fas fa-plus-square icon-add"></i>
+            <i class="fas fa-plus-square icon-add" on:click={addOption}></i>
             <i class="fas fa-trash icon-delete" on:click={deleteSubcommand}></i>
         </div>
     </div>
 
     <!--Options -->
     {#each options as option}
-        <Option bind:options bind:option margin="2"/>
+        <Option bind:options bind:option bind:dnd margin="2"/>
     {/each}
 </div>
 

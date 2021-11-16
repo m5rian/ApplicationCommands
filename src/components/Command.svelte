@@ -4,6 +4,7 @@
 
     export let slashCommands;
     export let slashCommand;
+    export let dnd;
     let subcommandGroups = [];
     let subcommands = [];
     let options = [];
@@ -34,6 +35,15 @@
     function deleteSlashCommand() {
         slashCommands = slashCommands.filter(value => value !== slashCommand);
     }
+
+    function addSubcommand() {
+        const templateSubcommand = {
+            name: "A subcommand",
+            description: "whoa!",
+            type: 1
+        }
+        subcommands = [...subcommands, templateSubcommand]
+    }
 </script>
 
 <div class="slash-command-wrapper">
@@ -44,7 +54,7 @@
             <input class="slashCommand-description" value={slashCommand["description"]}/>
         </div>
         <div>
-            <i class="fas fa-plus-square icon-add"></i>
+            <i class="fas fa-plus-square icon-add" on:click={addSubcommand}></i>
             <i class="fas fa-trash icon-delete" on:click={deleteSlashCommand}></i>
         </div>
     </div>
@@ -59,7 +69,7 @@
     <!-- Subcommands -->
     <div class="slash-command-children">
         {#each subcommands as subcommand}
-            <Subcommand bind:subcommands bind:subcommand={subcommand} margin="1"/>
+            <Subcommand bind:subcommands bind:subcommand={subcommand} bind:dnd margin="1"/>
         {/each}
     </div>
 </div>

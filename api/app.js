@@ -22,7 +22,8 @@ app.get("/retrieve", async (req, res) => {
     const response = await promise.json()
 
     res.status(200)
-    console.log(response)
+    console.log(">> GET /retrieve")
+    console.log(JSON.stringify(response, null, 3))
     res.send(response);
 });
 
@@ -34,7 +35,7 @@ app.get("/update", async (req, res) => {
     console.log("what i got is this")
     console.log(slashCommands)
 
-    const url = "https://discord.com/api/v6/applications/" + id + "/commands"
+    const url = "https://discord.com/api/v8/applications/" + id + "/commands"
     const promise = await fetch(url, {
         method: "PUT",
         headers: {
@@ -46,7 +47,9 @@ app.get("/update", async (req, res) => {
     const response = await promise.json()
 
     res.status(200)
-    console.log(response)
+    console.log(">> GET /update")
+    console.log(JSON.stringify(response, null, 3))
+    console.log("-----")
     res.send(response)
 })
 
@@ -55,7 +58,7 @@ app.post("/create", async (req, res) => {
     const id = req.header("id")
     const slashCommand = JSON.parse(req.header("json"))
 
-    const url = "https://discord.com/api/v6/applications/" + id + "/commands"
+    const url = "https://discord.com/api/v8/applications/" + id + "/commands"
     const promise = await fetch(url, {
         method: "POST",
         headers: {
@@ -74,7 +77,7 @@ app.post("/create", async (req, res) => {
 app.get("/bot", async (req, res) => {
     const token = req.header("token");
 
-    const url = "https://discord.com/api/v6/users/@me"
+    const url = "https://discord.com/api/v8/users/@me"
     const promise = await fetch(url, {
         method: "GET",
         headers: {

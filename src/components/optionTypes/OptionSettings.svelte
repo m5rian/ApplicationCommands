@@ -1,15 +1,17 @@
 <script>
+    export let options;
     export let option;
     export let active;
 
-    let type = option.type
+    let type
+    $: type = option.type
 
     function closeOptions() {
         active = false;
     }
 
     function onTypeChange() {
-        option.type = document.getElementById("type-dropdown").value
+        option["type"] = document.getElementById("type-dropdown").value
     }
 </script>
 

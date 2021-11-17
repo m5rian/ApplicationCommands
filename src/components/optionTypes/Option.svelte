@@ -5,6 +5,7 @@
     export let options
     export let option
     let showSettings = false;
+
     export let dnd
     $: dnd = showSettings
 
@@ -25,7 +26,7 @@
     <div>
         <i class="fas fa-cog icon-cog" on:click={openSettings}></i>
         <i class="fas fa-trash icon-delete" on:click={deleteOption}></i>
-        <OptionSettings bind:active={showSettings} bind:option/>
+        <OptionSettings bind:active={showSettings} bind:options bind:option/>
     </div>
 </div>
 

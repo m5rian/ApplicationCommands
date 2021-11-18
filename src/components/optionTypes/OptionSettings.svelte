@@ -33,6 +33,11 @@
             </select>
         </div>
 
+        <div class="setting">
+            <p>Optional</p>
+            <input id="optional" type="checkbox" checked={!option.required} on:click={event => option.required = !event.target.checked}>
+        </div>
+
     </div>
 </div>
 
@@ -71,6 +76,7 @@
 
     .setting {
         display: flex;
+        align-items: center;
     }
 
     select {

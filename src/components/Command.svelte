@@ -16,12 +16,10 @@
         if (slashCommand["options"] === undefined) slashCommand.options = []
 
         if (subcommandGroups.length === 0 && subcommands.length === 0 && options.length === 0) {
-            console.log("Loading options from slash command...")
             subcommands = slashCommand["options"].filter(item => item.type === 1)
             subcommandGroups = slashCommand["options"].filter(item => item.type === 2)
             options = slashCommand["options"].filter(item => item.type > 2)
         } else {
-            console.log("Loading options to slash command...")
             slashCommand["options"] = [...subcommandGroups, ...subcommands, ...options]
         }
     }

@@ -101,46 +101,36 @@
         </div>
     </div>
 
-    <div class="spacing-line"></div>
-
     <!-- Subcommands -->
     <div class="slash-command-children">
-        {#each subcommands as subcommand}
-            <Subcommand bind:subcommands bind:subcommand={subcommand} bind:dnd margin="1"/>
-        {/each}
         <div class="add-item-wrapper">
             <p>Add subcommand</p>
             <i class="fas fa-plus-square icon-add" on:click={addSubcommand}></i>
         </div>
+        {#each subcommands as subcommand}
+            <Subcommand bind:subcommands bind:subcommand={subcommand} bind:dnd margin="1"/>
+        {/each}
     </div>
-
-    <div class="spacing-line"></div>
 
     <!-- Options -->
     <div class="slash-command-children">
-        {#each options as option}
-            <Option bind:options bind:option={option} bind:dnd margin="2"/>
-        {/each}
         <div class="add-item-wrapper">
             <p>Add option</p>
             <i class="fas fa-plus-square icon-add" on:click={addOption}></i>
         </div>
+        {#each options as option}
+            <Option bind:options bind:option={option} bind:dnd margin="2"/>
+        {/each}
     </div>
 
 </div>
 
 <style>
-    .spacing-line {
-        background-color: #808184;
-        padding: 1px 0;
-        border-radius: 1rem;
-        margin: 1rem;
-    }
-
     .add-item-wrapper {
         display: flex;
         text-align: center;
         margin-left: 0.25rem;
+        align-items: center;
     }
 
     .add-item-wrapper > p {

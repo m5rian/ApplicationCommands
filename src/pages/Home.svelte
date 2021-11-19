@@ -1,6 +1,4 @@
 <script>
-    import {flip} from "svelte/animate";
-    import {dndzone} from "svelte-dnd-action";
     import {deleteCookie, getCookie} from "../Utilities";
     import Command from "../components/Command.svelte";
 

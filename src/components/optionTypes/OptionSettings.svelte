@@ -9,10 +9,6 @@
     function closeOptions() {
         active = false;
     }
-
-    function onTypeChange() {
-        option["type"] = document.getElementById("type-dropdown").value
-    }
 </script>
 
 <div class="popup {active ? 'active': ''}">
@@ -21,7 +17,7 @@
 
         <div class="setting">
             <p>Type</p>
-            <select id="type-dropdown" on:change={onTypeChange}>
+            <select id="type-dropdown" on:change={event => option.type =  event.target.value}>
                 <option selected={type === 3} value="3">String</option>
                 <option selected={type === 4} value="4">Integer</option>
                 <option selected={type === 5} value="5">Boolean</option>
@@ -35,7 +31,8 @@
 
         <div class="setting">
             <p>Optional</p>
-            <input id="optional" type="checkbox" checked={!option.required} on:click={event => option.required = !event.target.checked}>
+            <input id="optional" type="checkbox" checked={!option.required}
+                   on:click={event => option.required = !event.target.checked}>
         </div>
 
     </div>

@@ -118,7 +118,7 @@
             <i class="fas fa-plus-square icon-add" on:click={addOption}></i>
         </div>
         {#each options as option}
-            <Option bind:options bind:option={option} bind:dnd margin="2"/>
+            <Option bind:options bind:option={option} bind:dnd/>
         {/each}
     </div>
 

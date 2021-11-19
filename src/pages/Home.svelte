@@ -1,8 +1,8 @@
 <script>
+    import {toast} from '@zerodevx/svelte-toast'
+    import { SvelteToast } from '@zerodevx/svelte-toast'
     import {deleteCookie, getCookie} from "../Utilities";
     import Command from "../components/Command.svelte";
-
-    const flipDurationMs = 300;
 
     function handleDndConsider(e) {
         slashCommands = e.detail.items
@@ -24,7 +24,6 @@
         deleteCookie("token");
         window.location.reload(false);
     }
-
 
     let bot;
     let slashCommands = [];
@@ -65,7 +64,9 @@
                 json: body
             }
         })).json()
-        window.location.reload(true);
+        if (response.retry_after !== undefined) {
+            toast.push(response.message)
+        } else window.location.reload(true);
     }
 
     function guidGenerator() {
@@ -95,9 +96,11 @@
             <i class="fas fa-spinner spinner"></i>
         </div>
     {:then _unused}
+        <SvelteToast/>
+        <div class="toast-messages"></div>
         <div class="navbar">
             <div class="bot-info">
-                <img src={"https://cdn.discordapp.com/avatars/" + bot["id"] + "/" + bot["avatar"] + ".png"} alt=""/>
+                <img src={"https://cdn.discordapp.com/avatars/" + bot["id"] + "/" + bot["avatar"] + ".png"} alt=""}/>
                 <p>{bot["username"]}</p>
             </div>
             <div class="byebye">
@@ -118,6 +121,10 @@
 </section>
 
 <style>
+    .toast-messages {
+
+    }
+
     /* Navigation bar */
     .navbar {
         width: 100%;

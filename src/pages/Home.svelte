@@ -107,14 +107,9 @@
             </div>
         </div>
 
-        <div class="slashCommands-wrapper"
-             use:dndzone="{{items: slashCommands, dropFromOthersDisabled: true, flipDurationMs: 500, morphDisabled: true, dragDisabled: dnd}}"
-             on:consider="{handleDndConsider}"
-             on:finalize="{handleDndFinalize}">
-            {#each slashCommands as slashCommand (slashCommand.id)}
-                <div animate:flip={{duration: flipDurationMs}}>
-                    <Command bind:slashCommands bind:slashCommand={slashCommand} bind:dnd/>
-                </div>
+        <div class="slashCommands-wrapper">
+            {#each slashCommands as slashCommand}
+                <Command bind:slashCommands bind:slashCommand={slashCommand} bind:dnd/>
             {/each}
         </div>
         <div class="command-manager">

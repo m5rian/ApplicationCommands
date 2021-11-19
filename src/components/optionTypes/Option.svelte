@@ -20,7 +20,7 @@
 <div class="option-wrapper item margin-{margin}">
     <div class="name">
         <i class="fas fa-file icon-option-type"></i>
-        <p>{option["name"]}</p> <!-- Name of option -->
+        <input value={option.name} on:change={event => option.name = event.target.value}> <!-- Name of option -->
     </div>
 
     <div>

@@ -81,8 +81,7 @@
     <div class="root item">
         <div class="slash-command-info">
             <input type="text" value={slashCommand["name"]} on:change={event => updateName(event.target.value)}/>
-            <input class="slashCommand-description" value={slashCommand["description"]}
-                   on:change={event => updateDescription(event.target.value)}/>
+            <input class="slashCommand-description" value={slashCommand["description"]} on:change={event => updateDescription(event.target.value)}/>
         </div>
         <div>
             <i class="fas fa-plus-square icon-add" on:click={addSubcommandGroup}></i>
@@ -158,25 +157,5 @@
 
     .slashCommand-description {
         font-size: 0.5rem;
-    }
-
-    input {
-        font-size: 1rem;
-        color: #FFFF;
-        border: none;
-        background-image: none;
-        background-color: transparent;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
-    }
-
-    input:focus {
-        outline: none;
-    }
-
-    .add-item-button {
-        color: #7289DA;
-        cursor: pointer;
     }
 </style>

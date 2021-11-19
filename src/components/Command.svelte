@@ -128,7 +128,6 @@
     .add-item-wrapper {
         display: flex;
         text-align: center;
-        margin-left: 0.25rem;
         align-items: center;
     }
 

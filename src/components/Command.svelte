@@ -38,7 +38,7 @@
         const child = {
             name: "Subcommandgroup",
             description: "yes",
-            type: 1
+            type: 2
         }
         slashCommand["options"] = [...slashCommand["options"], child]
     }
@@ -47,7 +47,7 @@
         const child = {
             name: "Subcommand",
             description: "yes",
-            type: 2
+            type: 1
         }
         slashCommand["options"] = [...slashCommand["options"], child]
     }
@@ -60,6 +60,7 @@
             "required": true
         }
         slashCommand["options"] = [...slashCommand["options"], child]
+        options = slashCommand["options"]
     }
 
 

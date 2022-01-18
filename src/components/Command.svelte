@@ -41,6 +41,7 @@
             type: 2
         }
         slashCommand["options"] = [...slashCommand["options"], child]
+        subcommands = slashCommand["subcommandgroups"]
     }
 
     function addSubcommand() {
@@ -50,6 +51,7 @@
             type: 1
         }
         slashCommand["options"] = [...slashCommand["options"], child]
+        subcommands = slashCommand["subcommands"]
     }
 
     function addOption() {

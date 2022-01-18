@@ -30,17 +30,16 @@
     let dnd = false;
 
     async function loadData() {
-        const urlBot = window.location.protocol + "//" + window.location.hostname + ":8081/bot"
+        const urlBot = window.location.protocol + "//" + window.location.hostname + ":8182/bot"
         bot = await (await fetch(urlBot, {headers: {token: getCookie("token"),}})).json()
 
-        const url = window.location.protocol + "//" + window.location.hostname + ":8081/retrieve"
+        const url = window.location.protocol + "//" + window.location.hostname + ":8182/retrieve"
         slashCommands = await (await fetch(url, {
             headers: {
                 token: getCookie("token"),
                 id: bot["id"]
             }
         })).json()
-
         return true
     }
 
@@ -55,7 +54,7 @@
 
     async function createSlashCommand(command) {
         const body = JSON.stringify(command)
-        const url = window.location.protocol + "//" + window.location.hostname + ":8081/create"
+        const url = window.location.protocol + "//" + window.location.hostname + ":8182/create"
         const response = await (await fetch(url, {
             method: "POST",
             headers: {
@@ -78,7 +77,7 @@
 
 
     export async function saveSlashCommands() {
-        const url = window.location.protocol + "//" + window.location.hostname + ":8081/update"
+        const url = window.location.protocol + "//" + window.location.hostname + ":8182/update"
         const response = await (await fetch(url, {
             headers: {
                 token: getCookie("token"),
@@ -93,14 +92,14 @@
 <section>
     {#await loadData()}
         <div class="loading">
-            <i class="fas fa-spinner spinner"></i>
+            <i class="fas fa-spinner spinner"> </i>
         </div>
     {:then _unused}
         <SvelteToast/>
         <div class="toast-messages"></div>
         <div class="navbar">
             <div class="bot-info">
-                <img src={"https://cdn.discordapp.com/avatars/" + bot["id"] + "/" + bot["avatar"] + ".png"} alt=""}/>
+                <img src={"https://cdn.discordapp.com/avatars/" + bot["id"] + "/" + bot["avatar"] + ".png"} alt=""/>
                 <p>{bot["username"]}</p>
             </div>
             <div class="byebye">

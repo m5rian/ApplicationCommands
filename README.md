@@ -1,1 +1,6 @@
- *This app is still in development and is **not** ready for use!*
+1. Install required packages
+```
+npm install
+```
+
+2. run the website

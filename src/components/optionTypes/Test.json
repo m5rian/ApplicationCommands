@@ -1,0 +1,50 @@
+{
+  "14": {
+    "options": {
+      "2": {
+        "choices": {
+          "0": {
+            "value": {
+              "_errors": [
+                {
+                  "code": "APPLICATION_COMMAND_CHOICES_VALUE_INVALID",
+                  "message": "Choice values must be of type \"integer\""
+                }
+              ]
+            }
+          },
+          "1": {
+            "value": {
+              "_errors": [
+                {
+                  "code": "APPLICATION_COMMAND_CHOICES_VALUE_INVALID",
+                  "message": "Choice values must be of type \"integer\""
+                }
+              ]
+            }
+          },
+          "2": {
+            "value": {
+              "_errors": [
+                {
+                  "code": "APPLICATION_COMMAND_CHOICES_VALUE_INVALID",
+                  "message": "Choice values must be of type \"integer\""
+                }
+              ]
+            }
+          },
+          "3": {
+            "value": {
+              "_errors": [
+                {
+                  "code": "APPLICATION_COMMAND_CHOICES_VALUE_INVALID",
+                  "message": "Choice values must be of type \"integer\""
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

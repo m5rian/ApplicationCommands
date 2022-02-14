@@ -1,45 +1,33 @@
 <script>
-    import {toast} from '@zerodevx/svelte-toast'
-    import { SvelteToast } from '@zerodevx/svelte-toast'
-    import {deleteCookie, getCookie} from "../Utilities";
+    import {SvelteToast, toast} from '@zerodevx/svelte-toast'
+    import {getCookie} from "../Utilities";
     import Command from "../components/Command.svelte";
-
-    function handleDndConsider(e) {
-        slashCommands = e.detail.items
-    }
-
-    function handleDndFinalize(e) {
-        slashCommands = e.detail.items
-    }
-
+    import NavBar from "../components/NavBar.svelte";
+    import Loading from "../components/Loading.svelte";
+    import Popup from "../components/Popup.svelte";
 
     if (getCookie("token") == null) {
         window.location.href = window.location.origin + "/login";
     }
 
-    /**
-     * Logs the user out.
-     */
-    function onLogout() {
-        deleteCookie("token");
-        window.location.reload(false);
-    }
-
     let bot;
     let slashCommands = [];
-    let dnd = false;
+    let showJson = false;
+    $: slashCommands = slashCommands.filter(element => element !== undefined)
 
     async function loadData() {
         const urlBot = window.location.protocol + "//" + window.location.hostname + ":8182/bot"
         bot = await (await fetch(urlBot, {headers: {token: getCookie("token"),}})).json()
 
         const url = window.location.protocol + "//" + window.location.hostname + ":8182/retrieve"
-        slashCommands = await (await fetch(url, {
+        const response = await fetch(url, {
             headers: {
                 token: getCookie("token"),
                 id: bot["id"]
             }
-        })).json()
+        })
+        slashCommands = await response.json()
+
         return true
     }
 
@@ -68,106 +56,94 @@
         } else window.location.reload(true);
     }
 
-    function guidGenerator() {
-        const S4 = function () {
-            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-        };
-        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
-    }
-
-
-    export async function saveSlashCommands() {
+    async function saveSlashCommands() {
         const url = window.location.protocol + "//" + window.location.hostname + ":8182/update"
         const response = await (await fetch(url, {
             headers: {
                 token: getCookie("token"),
-                id: bot["id"],
+                id: bot.id,
                 slashCommands: JSON.stringify(slashCommands, null)
             }
         })).json()
         window.location.reload(true);
     }
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText(JSON.stringify(slashCommands))
+    }
+
+    function loadFromClipboard() {
+        navigator.clipboard.readText().then(data => {
+            slashCommands = JSON.parse(data)
+        })
+    }
 </script>
 
 <section>
     {#await loadData()}
-        <div class="loading">
-            <i class="fas fa-spinner spinner"> </i>
-        </div>
+        <Loading/>
     {:then _unused}
-        <SvelteToast/>
-        <div class="toast-messages"></div>
-        <div class="navbar">
-            <div class="bot-info">
-                <img src={"https://cdn.discordapp.com/avatars/" + bot["id"] + "/" + bot["avatar"] + ".png"} alt=""/>
-                <p>{bot["username"]}</p>
-            </div>
-            <div class="byebye">
-                <i class="fas fa-sign-out-alt logout-button" on:click={onLogout}></i>
-            </div>
-        </div>
+        <Popup bind:active={showJson}>
+            <pre class="json">{JSON.stringify(slashCommands, null, 4)}</pre>
+        </Popup>
 
-        <div class="slashCommands-wrapper">
-            {#each slashCommands as slashCommand}
-                <Command bind:slashCommands bind:slashCommand={slashCommand} bind:dnd/>
-            {/each}
-        </div>
-        <div class="command-manager">
-            <i class="fas fa-plus-square" on:click={addCommand}></i>
-            <button on:click={saveSlashCommands}>Save commands</button>
+        <SvelteToast/>
+        <NavBar {bot}/>
+
+        <div class="page-content">
+            <div class="slashCommands-wrapper">
+                {#each slashCommands as slashCommand}
+                    <Command bind:slashCommand/>
+                {/each}
+            </div>
+
+            <div class="command-manager">
+                <i class="fas fa-plus-square" on:click={addCommand}></i>
+                <button on:click={() => showJson = true}>Show json</button>
+                <button on:click={copyToClipboard}>Copy to clipboard</button>
+                <button on:click={loadFromClipboard}>Load from clipboard</button>
+                <button on:click={saveSlashCommands}>Save commands</button>
+            </div>
         </div>
     {/await}
 </section>
 
 <style>
-    .toast-messages {
-
+    .json {
+        font-size: 1rem;
+        color: #FFFF;
     }
 
-    /* Navigation bar */
-    .navbar {
-        width: 100%;
-        height: 5rem;
-        background-color: #202225;
+    .page-content {
+        min-height: calc(100vh - 75px);
 
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-    }
-    .navbar .bot-info {
-        display: flex;
         align-items: center;
     }
-    .navbar .bot-info p {
-        margin: 1rem;
-    }
-    .navbar div img {
-        width: 5rem;
-    }
-    .byebye {
+
+    /* Slash commands */
+    .slashCommands-wrapper {
+        margin-top: 1rem;
+
         display: flex;
-        justify-content: center;
-        align-items: center
+        flex-direction: column;
+        align-items: center;
     }
-    .logout-button {
-        color: #FFFF;
-        font-size: 2rem;
-        margin: 1rem;
-    }
-    .logout-button:hover { color: #7289DA; }
 
     /* Command settings */
     .command-manager {
+        margin: 15px;
+
         display: flex;
         align-items: center;
         justify-content: center;
-
-        float: right;
-        margin-right: 1rem;
+        gap: 15px;
     }
     .command-manager i {
         color: #FFFF;
         font-size: 2rem;
-        margin: 1rem;
     }
     .command-manager i:hover {
         color: #7289DA;
@@ -183,14 +159,5 @@
     section {
         width: 100%;
         height: 100vh;
-    }
-
-    /* Slash commands */
-    .slashCommands-wrapper {
-        margin-top: 1rem;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
     }
 </style>

@@ -1,53 +1,46 @@
 * {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-	background-color: #36393F;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    background-color: #36393F;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
 p {
-	font-size: 1rem;
-	color: #ffff;
+    font-size: 1rem;
+    color: #FFFF;
 }
 
 input {
-	font-size: 1rem;
-	color: #FFFF;
-	border: none;
-	background-image: none;
-	background-color: transparent;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
+    font-size: 1rem;
+    color: #FFFF;
+    border: none;
+    background-image: none;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 input:focus {
-	outline: none;
+    outline: none;
 }
 
-.loading {
-	width: 100%;
-	height: 100%;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
+/* Icons */
+.icon-delete {
+    color: #F04747;
+    margin-right: 0.5rem;
+    cursor: pointer;
 }
-
-.loading .spinner {
-	color: #ffff;
-	font-size: 5rem;
-	animation: spin 2s infinite;
+.icon-add {
+    color: #7289DA;
+    cursor: pointer;
 }
-
-@keyframes spin {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
+.icon-cog {
+    color: #FFFFFF;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
 }

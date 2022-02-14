@@ -1,3 +1,11 @@
+/**
+ * Logs the user out.
+ */
+export function onLogout() {
+    deleteCookie("token");
+    window.location.reload(false);
+}
+
 export function getCookie(name) {
     var cookieArr = document.cookie.split(";"); // Split cookie string and get all individual name=value pairs in an array
     for (var i = 0; i < cookieArr.length; i++) {

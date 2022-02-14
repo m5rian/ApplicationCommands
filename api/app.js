@@ -23,7 +23,7 @@ app.get("/retrieve", async (req, res) => {
 
     res.status(200)
     console.log(">> GET /retrieve")
-    console.log(JSON.stringify(response, null, 3))
+    console.log(JSON.stringify(response, null, 4))
     res.send(response);
 });
 
@@ -31,9 +31,6 @@ app.get("/update", async (req, res) => {
     const token = req.header("token");
     const id = req.header("id")
     const slashCommands = JSON.parse(req.header("slashCommands"))
-
-    console.log("what i got is this")
-    console.log(slashCommands)
 
     const url = "https://discord.com/api/v8/applications/" + id + "/commands"
     const promise = await fetch(url, {
@@ -47,9 +44,9 @@ app.get("/update", async (req, res) => {
     const response = await promise.json()
 
     res.status(200)
-    console.log(">> GET /update")
-    console.log(JSON.stringify(response, null, 3))
-    console.log("-----")
+    console.log(`>> GET /update [${promise.status}] ${promise.status !== 200 ? " - " + response.message : ""}`)
+    console.log(JSON.stringify(slashCommands, null, 4))
+    console.log(JSON.stringify(response.errors))
     res.send(response)
 })
 
@@ -70,7 +67,7 @@ app.post("/create", async (req, res) => {
     const response = await promise.json()
 
     res.status(200)
-    console.log(response)
+    console.log(">> POST /create")
     res.send(response);
 })
 
@@ -87,7 +84,7 @@ app.get("/bot", async (req, res) => {
     const response = await promise.json()
 
     res.status(200)
-    console.log(response)
+    console.log(">> GET /bot")
     res.send(response);
 })
 

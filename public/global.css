@@ -51,4 +51,4 @@ input:focus {
     flex-direction: column;
 }
 .name { font-size: 1.25rem }
-.description { font-size: 0.75rem }
+.description { font-size: 0.75rem; width: 50vw }

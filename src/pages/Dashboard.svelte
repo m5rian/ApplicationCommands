@@ -16,10 +16,10 @@
     $: slashCommands = slashCommands.filter(element => element !== undefined)
 
     async function loadData() {
-        const urlBot = window.location.protocol + "//" + window.location.hostname + ":8182/bot"
+        const urlBot = "http://" + window.location.hostname + ":8182/bot"
         bot = await (await fetch(urlBot, {headers: {token: getCookie("token"),}})).json()
 
-        const url = window.location.protocol + "//" + window.location.hostname + ":8182/retrieve"
+        const url = "http://" + window.location.hostname + ":8182/retrieve"
         const response = await fetch(url, {
             headers: {
                 token: getCookie("token"),
@@ -42,7 +42,7 @@
 
     async function createSlashCommand(command) {
         const body = JSON.stringify(command)
-        const url = window.location.protocol + "//" + window.location.hostname + ":8182/create"
+        const url = "http://" + window.location.hostname + ":8182/create"
         const response = await (await fetch(url, {
             method: "POST",
             headers: {
@@ -57,7 +57,7 @@
     }
 
     async function saveSlashCommands() {
-        const url = window.location.protocol + "//" + window.location.hostname + ":8182/update"
+        const url = "http://" + window.location.hostname + ":8182/update"
         const response = await (await fetch(url, {
             headers: {
                 token: getCookie("token"),

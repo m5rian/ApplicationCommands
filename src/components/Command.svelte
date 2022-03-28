@@ -16,9 +16,9 @@
 <div class="command-wrapper">
     <!-- Slash command itself -->
     <div class="command">
-        <div class="command-info">
-            <input bind:value={slashCommand.name} class="command-name"/>
-            <input bind:value={slashCommand.description} class="command-description"/>
+        <div class="info">
+            <input bind:value={slashCommand.name} class="name"/>
+            <input bind:value={slashCommand.description} class="description"/>
         </div>
         <div>
             <i class="fas fa-trash icon-delete" on:click={() => slashCommand = undefined}></i>
@@ -49,11 +49,4 @@
         justify-content: space-between;
         align-items: center;
     }
-
-    .command-info {
-        display: flex;
-        flex-direction: column;
-    }
-    .command-name { font-size: 1.25rem }
-    .command-description { font-size: 0.75rem }
 </style>

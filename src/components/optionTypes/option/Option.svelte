@@ -8,9 +8,12 @@
 <div class="option-wrapper">
     <div class="item">
 
-        <div class="name">
+        <div class="information">
             <i class="fas fa-file icon-option-type"></i>
-            <input on:change={event => option.name = event.target.value} value={option.name}>
+			<div class="info">
+				<input bind:value={option.name} class="name"/>
+				<input bind:value={option.description} class="description"/>
+			</div>
         </div>
 
         <div>
@@ -34,6 +37,12 @@
         justify-content: space-between;
         align-items: center;
     }
+
+	.information {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
 
     .icon-option-type { color: #50CAB1 }
 

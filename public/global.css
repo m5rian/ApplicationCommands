@@ -44,3 +44,11 @@ input:focus {
     margin-right: 0.5rem;
     cursor: pointer;
 }
+
+/* Interaction inputs */
+.info {
+    display: flex;
+    flex-direction: column;
+}
+.name { font-size: 1.25rem }
+.description { font-size: 0.75rem }

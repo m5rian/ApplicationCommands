@@ -1,6 +1,6 @@
 <script>
-	import Popup from "../../Popup.svelte";
-	import {getExampleChoice} from "../../../Templates";
+	import Popup from '../../Popup.svelte';
+	import {getExampleChoice} from '../../../Templates';
 
 	export let option;
 	export let active;
@@ -12,9 +12,9 @@
 			const choice = option.choices[i];
 			let value = undefined
 
-			if (option.type === 3) value = "string"
-			else if (option.type === 4) value = "integer"
-			else if (option.type === 10) value = "double"
+			if (option.type === 3) value = 'string'
+			else if (option.type === 4) value = 'integer'
+			else if (option.type === 10) value = 'double'
 
 			if (value !== undefined) {
 				choice.value = value
@@ -33,7 +33,7 @@
 <Popup bind:active>
 	<div class="setting">
 		<p>Type</p>
-		<select id="type-dropdown" on:change={event => option.type =  event.target.value}>
+		<select id="type-dropdown" on:change={event => option.type = parseInt(event.target.value) }>
 			<option selected={option.type === 3} value="3">String</option>
 			<option selected={option.type === 4} value="4">Integer</option>
 			<option selected={option.type === 5} value="5">Boolean</option>
@@ -49,6 +49,13 @@
 		<p>Optional</p>
 		<input checked={!option.required} id="optional" on:click={event => option.required = !event.target.checked} type="checkbox">
 	</div>
+
+	{#if option.type === 3 || option.type === 4 || option.type === 10}
+		<div>
+			<p>Autocomplete</p>
+			<input checked={option.autocomplete} id="autocomplete" on:click={event => option.autocomplete = event.target.checked} type="checkbox">
+		</div>
+	{/if}
 
 	<div>
 		<div class="setting">

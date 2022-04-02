@@ -46,6 +46,6 @@
 
     .icon-option-type { color: #50CAB1 }
 
-    .name > input {transition: color cubic-bezier(.67, .01, .58, .99) 0.25s }
-    .name:hover > input { color: #50CAB1 }
+    .info > input { transition: color cubic-bezier(.67, .01, .58, .99) 0.25s }
+    .info:hover > input { color: #50CAB1 }
 </style>

@@ -94,9 +94,9 @@
 		for (let command of slashCommands) {
 			const lang = {}
 			lang.name = command.name
-			lang.name_localizations = command.name_localizations
+			lang.name_localizations = command.name_localizations ? command.name_localizations : {}
 			lang.description = command.description
-			lang.description_localizations = command.description_localizations
+			lang.description_localizations = command.description_localizations ? command.description_localizations : {}
 			if (command.options !== undefined) lang.options = loadOptions(command)
 			langs.push(lang)
 		}
@@ -108,9 +108,9 @@
 		for (let option of parent.options) {
 			const langOption = {}
 			langOption.name = option.name
-			langOption.name_localizations = option.name_localizations
+			langOption.name_localizations = option.name_localizations ? option.name_localizations : {}
 			langOption.description = option.description
-			langOption.description_localizations = option.description_localizations
+			langOption.description_localizations = option.description_localizations ? option.description_localizations : {}
 			if (option.options !== undefined) langOption.options = loadOptions(option)
 			langOptions.push(langOption)
 		}

@@ -39,26 +39,28 @@
 		</div>
 	{/if}
 
-	<div>
-		<div class="setting">
-			<p>Choices</p>
-			<i class="fas fa-plus-square icon-add" on:click={addChoice}></i>
-		</div>
-		<div class="choices">
-			{#each option.choices as choice}
-				<div class="choice">
-					{#if option.type === 3}
-						<input bind:value={choice.name}>
-						<input bind:value={choice.value}>
+	{#if option.type === 3 || option.type === 4 || option.type === 10}
+		<div>
+			<div class="setting">
+				<p>Choices</p>
+				<i class="fas fa-plus-square icon-add" on:click={addChoice}></i>
+			</div>
+			<div class="choices">
+				{#each option.choices as choice}
+					<div class="choice">
+						{#if option.type === 3}
+							<input bind:value={choice.name}>
+							<input bind:value={choice.value}>
 						{:else}
-						<input type="number" bind:value={choice.name}>
-						<input type="number" bind:value={choice.value}>
-					{/if}
-					<i class="fas fa-trash icon-delete" on:click={() => option.choices = option.choices.filter(c => c !== choice)}></i>
-				</div>
-			{/each}
+							<input type="number" bind:value={choice.name}>
+							<input type="number" bind:value={choice.value}>
+						{/if}
+						<i class="fas fa-trash icon-delete" on:click={() => option.choices = option.choices.filter(c => c !== choice)}></i>
+					</div>
+				{/each}
+			</div>
 		</div>
-	</div>
+	{/if}
 </Popup>
 
 <style>

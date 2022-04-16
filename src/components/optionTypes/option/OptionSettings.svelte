@@ -10,8 +10,6 @@
 	function addChoice() {
 		option.choices = [...option.choices, getExampleChoice()]
 	}
-
-	$: console.log(option)
 </script>
 
 <Popup bind:active>

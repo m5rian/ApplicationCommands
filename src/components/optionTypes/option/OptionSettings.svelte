@@ -7,22 +7,6 @@
 
 	if (option.choices === undefined) option.choices = []
 
-	$: {
-		for (let i = 0; i < option.choices.length; i++) {
-			const choice = option.choices[i];
-			let value = undefined
-
-			if (option.type === 3) value = 'string'
-			else if (option.type === 4) value = 'integer'
-			else if (option.type === 10) value = 'double'
-
-			if (value !== undefined) {
-				choice.value = value
-				option.choices[i] = choice
-			}
-		}
-	}
-
 	function addChoice() {
 		option.choices = [...option.choices, getExampleChoice()]
 	}
@@ -65,7 +49,13 @@
 		<div class="choices">
 			{#each option.choices as choice}
 				<div class="choice">
-					<input bind:value={choice.name}>
+					{#if option.type === 3}
+						<input bind:value={choice.name}>
+						<input bind:value={choice.value}>
+						{:else}
+						<input type="number" bind:value={choice.name}>
+						<input type="number" bind:value={choice.value}>
+					{/if}
 					<i class="fas fa-trash icon-delete" on:click={() => option.choices = option.choices.filter(c => c !== choice)}></i>
 				</div>
 			{/each}

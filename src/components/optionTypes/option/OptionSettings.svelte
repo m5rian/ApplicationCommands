@@ -64,8 +64,8 @@
 		</div>
 		<div class="choices">
 			{#each option.choices as choice}
-				<div>
-					<input class="choice" bind:value={choice.name}>
+				<div class="choice">
+					<input bind:value={choice.name}>
 					<i class="fas fa-trash icon-delete" on:click={() => option.choices = option.choices.filter(c => c !== choice)}></i>
 				</div>
 			{/each}
@@ -96,12 +96,14 @@
 
 	.choices {
 		display: flex;
+		gap: 5px;
 		flex-direction: column;
+	}
 
-		padding: 2.5px;
+	.choice {
+		padding: 0.75em;
 		background-color: #18191C;
 		border-radius: 0.5rem
 	}
-
 	.choice:not(:first-child) { margin: 2px; border-top: 1px solid #2F3136 }
 </style>

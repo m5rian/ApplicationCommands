@@ -58,13 +58,14 @@
 
 	async function saveSlashCommands() {
 		const url = 'http://' + window.location.hostname + ':8182/update'
-		await (await fetch(url, {
+		const res = await (await fetch(url, {
+			method: 'POST',
 			headers: {
 				token: getCookie('token'),
 				id: bot.id,
-				slashCommands: JSON.stringify(slashCommands, null)
-			}
-		})).json()
+			},
+			body: encodeURI(JSON.stringify(slashCommands, null))
+		}))
 		window.location.reload(true);
 	}
 
@@ -86,6 +87,7 @@
 				const lang = langs.find(it => it.name === command.name)
 				slashCommands[i] = Object.assign(command, lang)
 			}
+			saveSlashCommands()
 		})
 	}
 

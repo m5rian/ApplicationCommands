@@ -1,93 +1,92 @@
 import fetch from 'node-fetch';
-import express from "express"
-import bodyParser from "body-parser"
-import cors from "cors"
+import express from 'express'
+import bodyParser from 'body-parser'
+import cors from 'cors'
 
 const app = express();
 const urlencodedParser = bodyParser.urlencoded({extended: false})
-app.use(bodyParser.json());
+app.use(bodyParser.text());
 app.use(cors())
 
-app.get("/retrieve", async (req, res) => {
-    const token = req.header("token")
-    const id = req.header("id")
+app.get('/retrieve', async (req, res) => {
+    const token = req.header('token')
+    const id = req.header('id')
 
-    const url = "https://discord.com/api/v8/applications/" + id + "/commands"
+    const url = 'https://discord.com/api/v8/applications/' + id + '/commands'
     const promise = await fetch(url, {
-        method: "GET",
+        method: 'GET',
         headers: {
-            Authorization: "Bot " + token
+            Authorization: 'Bot ' + token
         }
     })
     const response = await promise.json()
 
     res.status(200)
-    console.log(">> GET /retrieve")
-    console.log(JSON.stringify(response, null, 4))
+    console.log('>> GET /retrieve')
     res.send(response);
 });
 
-app.get("/update", async (req, res) => {
-    const token = req.header("token");
-    const id = req.header("id")
-    const slashCommands = JSON.parse(req.header("slashCommands"))
+app.post('/update', async (req, res) => {
+    console.log('update called')
+    const token = req.header('token');
+    const id = req.header('id')
+    const slashCommands = JSON.parse(decodeURI(req.body))
 
-    const url = "https://discord.com/api/v8/applications/" + id + "/commands"
+    const url = 'https://discord.com/api/v8/applications/' + id + '/commands'
     const promise = await fetch(url, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bot " + token
+            'Content-Type': 'application/json',
+            Authorization: 'Bot ' + token
         },
-        body: JSON.stringify(slashCommands, null)
+        body: JSON.stringify(slashCommands)
     })
     const response = await promise.json()
 
     res.status(200)
-    console.log(`>> GET /update [${promise.status}] ${promise.status !== 200 ? " - " + response.message : ""}`)
-    console.log(JSON.stringify(slashCommands, null, 4))
-    console.log(JSON.stringify(response.errors))
+    console.log(`>> POST /update [${promise.status}] ${promise.status !== 200 ? ' - ' + response.message : ''}`)
+    console.log(JSON.stringify(response.errors, null, 4))
     res.send(response)
 })
 
-app.post("/create", async (req, res) => {
-    const token = req.header("token");
-    const id = req.header("id")
-    const slashCommand = JSON.parse(req.header("json"))
+app.post('/create', async (req, res) => {
+    const token = req.header('token');
+    const id = req.header('id')
+    const slashCommand = JSON.parse(req.header('json'))
 
-    const url = "https://discord.com/api/v8/applications/" + id + "/commands"
+    const url = 'https://discord.com/api/v8/applications/' + id + '/commands'
     const promise = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bot " + token
+            'Content-Type': 'application/json',
+            Authorization: 'Bot ' + token
         },
         body: JSON.stringify(slashCommand, null)
     })
     const response = await promise.json()
 
     res.status(200)
-    console.log(">> POST /create")
+    console.log('>> POST /create')
     res.send(response);
 })
 
-app.get("/bot", async (req, res) => {
-    const token = req.header("token");
+app.get('/bot', async (req, res) => {
+    const token = req.header('token');
 
-    const url = "https://discord.com/api/v8/users/@me"
+    const url = 'https://discord.com/api/v8/users/@me'
     const promise = await fetch(url, {
-        method: "GET",
+        method: 'GET',
         headers: {
-            Authorization: "Bot " + token
+            Authorization: 'Bot ' + token
         },
     })
     const response = await promise.json()
 
     res.status(200)
-    console.log(">> GET /bot")
+    console.log('>> GET /bot')
     res.send(response);
 })
 
 app.listen(8182, () => {
-    console.log("App's running on port 8182");
+    console.log('App\'s running on port 8182');
 });

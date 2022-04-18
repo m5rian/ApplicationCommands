@@ -59,7 +59,7 @@
 
 	async function saveSlashCommands() {
 		const url = 'http://' + window.location.hostname + ':8182/update'
-		const res = await (await fetch(url, {
+		await (await fetch(url, {
 			method: 'POST',
 			headers: {
 				token: getCookie('token'),

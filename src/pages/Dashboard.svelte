@@ -27,6 +27,7 @@
 			}
 		})
 		slashCommands = await response.json()
+		console.log(slashCommands)
 
 		return true
 	}
@@ -79,16 +80,45 @@
 		})
 	}
 
-	function loadLocalizations() {
-		navigator.clipboard.readText().then(data => {
-			const langs = JSON.parse(data)
-			for (let i = 0; i < slashCommands.length; i++) {
-				const command = slashCommands[i]
-				const lang = langs.find(it => it.name === command.name)
-				slashCommands[i] = Object.assign(command, lang)
+	async function loadLocalizations() {
+		const data = await navigator.clipboard.readText()
+		const internationalization = JSON.parse(data)
+		for (let i = 0; i < slashCommands.length; i++) {
+			const command = slashCommands[i]
+
+			const lang = internationalization.find(it => it.name === command.name)
+			if (lang === undefined) continue;
+			namesToLowerCase(lang)
+			applyInternationalization(command, lang)
+			slashCommands[i] = command
+		}
+		saveSlashCommands()
+	}
+
+	function applyInternationalization(object, lang) {
+		object.name_localizations = lang.name_localizations
+		object.description_localizations = lang.description_localizations
+		if (object.options) {
+			for (let option of object.options) {
+				const optionLang = lang.options.find(it => it.name === option.name)
+				applyInternationalization(option, optionLang)
 			}
-			saveSlashCommands()
+		}
+	}
+
+	function namesToLowerCase(obj) {
+		Object.keys(obj).forEach(k => {
+			if (Object.prototype.toString.call(obj[k]) === '[object Array]') obj[k] = obj[k].map(it => namesToLowerCase(it))
+			else if (obj[k] && typeof obj[k] === 'object') {
+				if (k.startsWith('name')) {
+					const languages = Object.keys(obj[k])
+					for (let language of languages) {
+						obj[k][language] = obj[k][language].toLowerCase()
+					}
+				} else namesToLowerCase(obj[k])
+			}
 		})
+		return obj;
 	}
 
 	function copyLocalizations() {

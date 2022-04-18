@@ -45,7 +45,7 @@ app.post('/update', async (req, res) => {
 
     res.status(200)
     console.log(`>> POST /update [${promise.status}] ${promise.status !== 200 ? ' - ' + response.message : ''}`)
-    console.log(JSON.stringify(response.errors, null, 4))
+    console.log("errors = " + JSON.stringify(response.errors, null, 4))
     res.send(response)
 })
 

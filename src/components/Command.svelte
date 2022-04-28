@@ -12,6 +12,7 @@
 	}
 
 	let showSettings = false;
+	let minimize = true;
 </script>
 
 <div class="command-wrapper">
@@ -23,17 +24,33 @@
 		</div>
 		<div>
 			<i class="fas fa-cog icon-cog" on:click={() => showSettings = true}></i>
-			<CommandSettings bind:command={slashCommand} bind:active={showSettings}/>
+			<CommandSettings bind:active={showSettings} bind:command={slashCommand}/>
 			<i class="fas fa-trash icon-delete" on:click={() => slashCommand = undefined}></i>
 		</div>
 	</div>
 
-	<SubcommandGroups bind:options={slashCommand.options}/>
-	<Subcommands bind:options={slashCommand.options}/>
-	<Options bind:options={slashCommand.options}/>
+	{#if minimize}
+		<div class="center-pls">
+			<i class="fa-solid fa-chevron-down" on:click={() => minimize = false}></i>
+		</div>
+	{:else}
+		<SubcommandGroups bind:options={slashCommand.options}/>
+		<Subcommands bind:options={slashCommand.options}/>
+		<Options bind:options={slashCommand.options}/>
+		<div class="center-pls">
+			<i class="fa-solid fa-chevron-up" on:click={() => minimize = true}></i>
+		</div>
+	{/if}
 </div>
 
 <style>
+	.center-pls {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		color: #FFFF;
+	}
+
 	.command-wrapper {
 		width: 75vw;
 

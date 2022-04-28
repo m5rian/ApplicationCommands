@@ -49,20 +49,18 @@
 	}
 
 	function isRequired(permission) {
-		if (command.default_member_permission == null) return false;
-		else return command.default_member_permission & permissions[permission] === permissions[permission];
+		if (command.default_member_permissions == null) return false;
+		else 	return (command.default_member_permissions & permissions[permission]) === permissions[permission];
 	}
 
 	function managePermission(permission, enabled) {
 		if (enabled) {
-			if (command.default_member_permission == null) command.default_member_permission = permission
-			else command.default_member_permission = command.default_member_permission | permission
+			if (command.default_member_permissions == null) command.default_member_permissions = permission
+			else command.default_member_permissions = command.default_member_permissions | permission
 		} else {
-			if (command.default_member_permission === permission) command.default_member_permission = null
-			else command.default_member_permission = command.default_member_permission ^ permission
+			if (command.default_member_permissions === permission) command.default_member_permissions = null
+			else command.default_member_permissions = command.default_member_permissions ^ permission
 		}
-
-		console.log(command.default_member_permission)
 	}
 </script>
 

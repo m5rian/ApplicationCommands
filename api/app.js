@@ -12,7 +12,7 @@ app.get('/retrieve', async (req, res) => {
     const token = req.header('token')
     const id = req.header('id')
 
-    const url = 'https://discord.com/api/v8/applications/' + id + '/commands'
+    const url = 'https://discord.com/api/v8/applications/' + id + '/commands?with_localizations=true'
     const promise = await fetch(url, {
         method: 'GET',
         headers: {

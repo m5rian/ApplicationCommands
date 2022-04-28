@@ -27,8 +27,6 @@
 			}
 		})
 		slashCommands = await response.json()
-		console.log(slashCommands)
-
 		return true
 	}
 

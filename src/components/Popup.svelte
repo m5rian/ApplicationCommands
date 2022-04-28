@@ -34,12 +34,9 @@
         border-radius: 1rem;
 
         height: auto;
-        max-height: 95vh;
+        max-height: 85vh;
         overflow-y: auto;
         overflow-x: hidden;
-        word-break: normal !important;
-        word-wrap: normal !important;
-        white-space: pre !important;
     }
 
     .close-window {

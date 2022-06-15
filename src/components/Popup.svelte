@@ -1,10 +1,14 @@
 <script>
     export let active;
+	export let onClose = () => ({});
 </script>
 
 <div class="popup {active ? 'active': ''}">
     <div class="popup-window">
-        <i class="fas fa-times close-window" on:click={() => active = false}></i>
+        <i class="fas fa-times close-window" on:click={() => {
+			active = false;
+			onClose();
+		}}></i>
 
         <slot/>
 

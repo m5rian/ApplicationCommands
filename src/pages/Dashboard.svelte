@@ -13,6 +13,7 @@
 	let bot;
 	let slashCommands = [];
 	let showJson = false;
+	let showLocalizationsInput = false;
 	$: slashCommands = slashCommands.filter(element => element !== undefined)
 
 	async function loadData() {
@@ -78,8 +79,8 @@
 		})
 	}
 
-	async function loadLocalizations() {
-		const data = await navigator.clipboard.readText()
+	function saveLocalizations() {
+		const data = document.querySelector("#localizations-input").value
 		const internationalization = JSON.parse(data)
 		for (let i = 0; i < slashCommands.length; i++) {
 			const command = slashCommands[i]
@@ -99,6 +100,7 @@
 		if (object.options) {
 			for (let option of object.options) {
 				const optionLang = lang.options.find(it => it.name === option.name)
+				if (optionLang === undefined) continue;
 				applyInternationalization(option, optionLang)
 			}
 		}
@@ -155,6 +157,9 @@
 		<Popup bind:active={showJson}>
 			<pre class="json">{JSON.stringify(slashCommands, null, 4)}</pre>
 		</Popup>
+		<Popup bind:active={showLocalizationsInput} onClose={saveLocalizations}>
+			<textarea id="localizations-input"></textarea>
+		</Popup>
 
 		<SvelteToast/>
 		<NavBar {bot}/>
@@ -172,7 +177,7 @@
 				<button on:click={copyToClipboard}>Copy to clipboard</button>
 				<button on:click={loadFromClipboard}>Load from clipboard</button>
 				<button on:click={copyLocalizations}>Copy localizations</button>
-				<button on:click={loadLocalizations}>Load localizations from clipboard</button>
+				<button on:click={() => showLocalizationsInput = true}>Load localizations</button>
 				<button on:click={saveSlashCommands}>Save commands</button>
 			</div>
 		</div>

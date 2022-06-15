@@ -259,4 +259,9 @@
 		width: 100%;
 		height: 100vh;
 	}
+
+	#localizations-input {
+		min-width: 50vw;
+		min-height: 25vh;
+	}
 </style>

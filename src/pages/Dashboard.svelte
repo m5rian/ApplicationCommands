@@ -80,14 +80,16 @@
 	}
 
 	function saveLocalizations() {
-		const data = document.querySelector("#localizations-input").value
+		const data = document.querySelector('#localizations-input').value
 		const internationalization = JSON.parse(data)
 		for (let i = 0; i < slashCommands.length; i++) {
 			const command = slashCommands[i]
 
 			const lang = internationalization.find(it => it.name === command.name)
 			if (lang === undefined) continue;
+			cleanTranslations(lang)
 			namesToLowerCase(lang)
+			console.log(lang)
 			applyInternationalization(command, lang)
 			slashCommands[i] = command
 		}
@@ -95,6 +97,8 @@
 	}
 
 	function applyInternationalization(object, lang) {
+		object.description = lang.description; // Update normal description too
+
 		object.name_localizations = lang.name_localizations
 		object.description_localizations = lang.description_localizations
 		if (object.options) {
@@ -116,6 +120,25 @@
 						obj[k][language] = obj[k][language].toLowerCase()
 					}
 				} else namesToLowerCase(obj[k])
+			}
+		})
+		return obj;
+	}
+
+	function cleanTranslations(obj) {
+		Object.keys(obj).forEach(k => {
+			if (Object.prototype.toString.call(obj[k]) === '[object Array]') obj[k] = obj[k].map(it => cleanTranslations(it))
+			else if (obj[k] && typeof obj[k] === 'object') {
+
+				if (k.endsWith('localizations')) {
+					const languages = Object.keys(obj[k]);
+					for (let language of languages) {
+						if (obj[k][language].replaceAll(/\s*/g, '').length === 0) {
+							delete obj[k][language];
+						}
+					}
+				} else cleanTranslations(obj[k])
+
 			}
 		})
 		return obj;

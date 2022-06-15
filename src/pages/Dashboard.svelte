@@ -93,11 +93,13 @@
 			applyInternationalization(command, lang)
 			slashCommands[i] = command
 		}
-		saveSlashCommands()
+		//saveSlashCommands()
 	}
 
 	function applyInternationalization(object, lang) {
-		object.description = lang.description; // Update normal description too
+		if (document.querySelector("#overwrite-descriptions").checked) {
+			object.description = lang.description;
+		}
 
 		object.name_localizations = lang.name_localizations
 		object.description_localizations = lang.description_localizations
@@ -181,6 +183,10 @@
 			<pre class="json">{JSON.stringify(slashCommands, null, 4)}</pre>
 		</Popup>
 		<Popup bind:active={showLocalizationsInput} onClose={saveLocalizations}>
+			<p>
+				<input checked id="overwrite-descriptions" type="checkbox">
+				Overwrite default descriptions
+			</p>
 			<textarea id="localizations-input"></textarea>
 		</Popup>
 

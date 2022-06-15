@@ -24,6 +24,7 @@
 			<option selected={option.type === 8} value="8">Role</option>
 			<option selected={option.type === 9} value="9">Mentionable</option>
 			<option selected={option.type === 10} value="10">Number</option>
+			<option selected={option.type === 11} value="11">Attachment</option>
 		</select>
 	</div>
 

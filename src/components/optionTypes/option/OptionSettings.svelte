@@ -28,6 +28,19 @@
 		</select>
 	</div>
 
+	{#if option.type === 3}
+		<div class="setting">
+			<p>Min length</p>
+			<input value={option.min_length} type="number" min="0" on:input={event => option.min_length = event.target.value} style="text-align: right">
+			<button on:click={() => option.min_length = null}>Reset</button>
+		</div>
+		<div class="setting">
+			<p>Max length</p>
+			<input value={option.max_length} type="number" min="1" on:input={event => option.max_length = event.target.value} style="text-align: right">
+			<button on:click={() => option.max_length = null}>Reset</button>
+		</div>
+	{/if}
+
 	<div class="setting">
 		<p>Optional</p>
 		<input checked={!option.required} id="optional" on:click={event => option.required = !event.target.checked} type="checkbox">

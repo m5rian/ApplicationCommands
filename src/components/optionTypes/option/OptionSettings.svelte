@@ -34,7 +34,7 @@
 	</div>
 
 	{#if option.type === 3 || option.type === 4 || option.type === 10}
-		<div>
+		<div class="setting">
 			<p>Autocomplete</p>
 			<input checked={option.autocomplete} id="autocomplete" on:click={event => option.autocomplete = event.target.checked} type="checkbox">
 		</div>

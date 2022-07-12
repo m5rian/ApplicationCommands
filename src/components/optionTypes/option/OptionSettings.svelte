@@ -41,6 +41,19 @@
 		</div>
 	{/if}
 
+	{#if option.type === 4 || option.type === 10}
+		<div class="setting">
+			<p>Min value</p>
+			<input value={option.min_value} type="number" on:input={event => option.min_value = event.target.value} style="text-align: right">
+			<button on:click={() => option.min_value = null}>Reset</button>
+		</div>
+		<div class="setting">
+			<p>Max value</p>
+			<input value={option.max_value} type="number" on:input={event => option.max_value = event.target.value} style="text-align: right">
+			<button on:click={() => option.max_value = null}>Reset</button>
+		</div>
+	{/if}
+
 	<div class="setting">
 		<p>Optional</p>
 		<input checked={!option.required} id="optional" on:click={event => option.required = !event.target.checked} type="checkbox">

@@ -14,6 +14,7 @@
 	let slashCommands = [];
 	let showJson = false;
 	let showLocalizationsInput = false;
+	let showCommandsInput = false;
 	$: slashCommands = slashCommands.filter(element => element !== undefined)
 
 	async function loadData() {
@@ -57,6 +58,13 @@
 	}
 
 	async function saveSlashCommands() {
+		const data = document.querySelector('#commands-input').value;
+		const commands = JSON.parse(data)
+		for(let command of commands) {
+			delete command.id;
+			delete command.application_id;
+		}
+
 		const url = 'http://' + window.location.hostname + ':8182/update'
 		await (await fetch(url, {
 			method: 'POST',
@@ -64,7 +72,7 @@
 				token: getCookie('token'),
 				id: bot.id,
 			},
-			body: encodeURI(JSON.stringify(slashCommands, null))
+			body: encodeURI(JSON.stringify(commands, null))
 		}))
 		window.location.reload(true);
 	}
@@ -189,6 +197,9 @@
 			</p>
 			<textarea id="localizations-input"></textarea>
 		</Popup>
+		<Popup bind:active={showCommandsInput} onClose={saveSlashCommands}>
+			<textarea id="commands-input"></textarea>
+		</Popup>
 
 		<SvelteToast/>
 		<NavBar {bot}/>
@@ -204,7 +215,7 @@
 				<i class="fas fa-plus-square" on:click={addCommand}></i>
 				<button on:click={() => showJson = true}>Show json</button>
 				<button on:click={copyToClipboard}>Copy to clipboard</button>
-				<button on:click={loadFromClipboard}>Load from clipboard</button>
+				<button on:click={() => showCommandsInput = true}>Load from clipboard</button>
 				<button on:click={copyLocalizations}>Copy localizations</button>
 				<button on:click={() => showLocalizationsInput = true}>Load localizations</button>
 				<button on:click={saveSlashCommands}>Save commands</button>

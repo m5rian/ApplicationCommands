@@ -277,8 +277,9 @@
 		height: 100vh;
 	}
 
-	#localizations-input {
-		min-width: 50vw;
-		min-height: 25vh;
+	#localizations-input, #commands-input {
+		width: 95%;
+		min-height: 95%;
+		resize: vertical;
 	}
 </style>

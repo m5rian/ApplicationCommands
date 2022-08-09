@@ -33,6 +33,9 @@
         align-items: center;
     }
     .popup-window {
+		width: 50%;
+		min-height: 50%;
+
         background-color: #282B30;
         padding: 2rem;
         border-radius: 1rem;

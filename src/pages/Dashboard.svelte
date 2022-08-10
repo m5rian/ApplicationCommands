@@ -57,14 +57,18 @@
 		} else window.location.reload(true);
 	}
 
-	async function saveSlashCommands() {
+	async function applySlashCommands() {
 		const data = document.querySelector('#commands-input').value;
 		const commands = JSON.parse(data)
 		for(let command of commands) {
 			delete command.id;
 			delete command.application_id;
 		}
+		slashCommands = commands;
+		await saveSlashCommands()
+	}
 
+	async function saveSlashCommands() {
 		const url = 'http://' + window.location.hostname + ':8182/update'
 		await (await fetch(url, {
 			method: 'POST',
@@ -72,7 +76,7 @@
 				token: getCookie('token'),
 				id: bot.id,
 			},
-			body: encodeURI(JSON.stringify(commands, null))
+			body: encodeURI(JSON.stringify(slashCommands, null))
 		}))
 		window.location.reload(true);
 	}
@@ -197,7 +201,7 @@
 			</p>
 			<textarea id="localizations-input"></textarea>
 		</Popup>
-		<Popup bind:active={showCommandsInput} onClose={saveSlashCommands}>
+		<Popup bind:active={showCommandsInput} onClose={applySlashCommands}>
 			<textarea id="commands-input"></textarea>
 		</Popup>
 

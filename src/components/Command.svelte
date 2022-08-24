@@ -18,9 +18,16 @@
 <div class="command-wrapper">
 	<!-- Slash command itself -->
 	<div class="command">
-		<div class="info">
-			<input bind:value={slashCommand.name} class="name"/>
-			<input bind:value={slashCommand.description} class="description"/>
+		<div class="main-info">
+			{#if slashCommand.guild == null}
+				<i class="fa-solid fa-earth-americas icon"></i>
+			{:else}
+				<i class="fa-solid fa-shield icon"></i>
+			{/if}
+			<div class="info">
+				<input bind:value={slashCommand.name} class="name"/>
+				<input bind:value={slashCommand.description} class="description"/>
+			</div>
 		</div>
 		<div>
 			<i class="fas fa-cog icon-cog" on:click={() => showSettings = true}></i>
@@ -44,6 +51,17 @@
 </div>
 
 <style>
+	.icon {
+		font-size: 1.5rem;
+		color: #202225;
+	}
+	.main-info {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 15px;
+	}
+
 	.center-pls {
 		width: 100%;
 		display: flex;

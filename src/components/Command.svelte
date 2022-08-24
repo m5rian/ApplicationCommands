@@ -19,7 +19,7 @@
 	<!-- Slash command itself -->
 	<div class="command">
 		<div class="main-info">
-			{#if slashCommand.guild == null}
+			{#if slashCommand.guild_id == null}
 				<i class="fa-solid fa-earth-americas icon"></i>
 			{:else}
 				<i class="fa-solid fa-shield icon"></i>

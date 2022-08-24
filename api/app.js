@@ -30,9 +30,12 @@ app.post('/update', async (req, res) => {
     console.log('update called')
     const token = req.header('token');
     const id = req.header('id')
+    const guild = req.query.guild_id
     const slashCommands = JSON.parse(decodeURI(req.body))
 
-    const url = 'https://discord.com/api/v8/applications/' + id + '/commands'
+    let url
+    if (guild == null) url = 'https://discord.com/api/v8/applications/' + id + '/commands'
+    else url = 'https://discord.com/api/v8/applications/' + id + '/guilds/' + guild + '/commands'
     const promise = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -45,7 +48,7 @@ app.post('/update', async (req, res) => {
 
     res.status(200)
     console.log(`>> POST /update [${promise.status}] ${promise.status !== 200 ? ' - ' + response.message : ''}`)
-    console.log("errors = " + JSON.stringify(response.errors, null, 4))
+    console.log('errors = ' + JSON.stringify(response.errors, null, 4))
     res.send(response)
 })
 

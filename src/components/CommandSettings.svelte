@@ -50,7 +50,7 @@
 
 	function isRequired(permission) {
 		if (command.default_member_permissions == null) return false;
-		else 	return (command.default_member_permissions & permissions[permission]) === permissions[permission];
+		else return (command.default_member_permissions & permissions[permission]) === permissions[permission];
 	}
 
 	function managePermission(permission, enabled) {
@@ -70,6 +70,15 @@
 		<div class="setting">
 			<p>Dms</p>
 			<input checked={command.dm_permission} on:click={event => command.dm_permission = event.target.checked} type="checkbox">
+		</div>
+
+		<div class="setting">
+			<p>Guild specific</p>
+			<input on:input={event => {
+				const value = event.target.value;
+				if (value.length === 0) command.guild_id = null;
+				else command.guild_id = value;
+			}}  placeholder="Type in guild id - empty for global command" type="text">
 		</div>
 
 		<div>

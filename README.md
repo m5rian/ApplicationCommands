@@ -21,6 +21,8 @@ You need to self host this, but I'm planning no hosting it in the future.
 - [x] Choices
 - [x] Option types
 - [x] Required field
+- [x] Permissions
+- [x] Min and Max length / value of option types
 
 # 💿 Installation
 

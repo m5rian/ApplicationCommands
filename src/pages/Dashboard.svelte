@@ -1,10 +1,11 @@
 <script>
-	import {SvelteToast, toast} from '@zerodevx/svelte-toast'
+	import {SvelteToast} from '@zerodevx/svelte-toast'
 	import {getCookie} from '../Utilities';
 	import Command from '../components/Command.svelte';
 	import NavBar from '../components/NavBar.svelte';
 	import Loading from '../components/Loading.svelte';
 	import Popup from '../components/Popup.svelte';
+	import {createCommand, retrieveCommands, saveCommands} from '../commandsManager';
 
 	if (getCookie('token') == null) {
 		window.location.href = window.location.origin + '/login';
@@ -21,14 +22,7 @@
 		const urlBot = 'http://' + window.location.hostname + ':8182/bot'
 		bot = await (await fetch(urlBot, {headers: {token: getCookie('token'),}})).json()
 
-		const url = 'http://' + window.location.hostname + ':8182/retrieve'
-		const response = await fetch(url, {
-			headers: {
-				token: getCookie('token'),
-				id: bot['id']
-			}
-		})
-		slashCommands = await response.json()
+		slashCommands = await retrieveCommands(bot.id)
 		return true
 	}
 
@@ -38,29 +32,13 @@
 			description: 'I can do cool stuff',
 			options: []
 		}
-		createSlashCommand(commandTemplate)
-	}
-
-	async function createSlashCommand(command) {
-		const body = JSON.stringify(command)
-		const url = 'http://' + window.location.hostname + ':8182/create'
-		const response = await (await fetch(url, {
-			method: 'POST',
-			headers: {
-				token: getCookie('token'),
-				id: bot.id,
-				json: body
-			}
-		})).json()
-		if (response.retry_after !== undefined) {
-			toast.push(response.message)
-		} else window.location.reload(true);
+		createCommand(bot.id, commandTemplate)
 	}
 
 	async function applySlashCommands() {
 		const data = document.querySelector('#commands-input').value;
 		const commands = JSON.parse(data)
-		for(let command of commands) {
+		for (let command of commands) {
 			delete command.id;
 			delete command.application_id;
 		}
@@ -69,15 +47,7 @@
 	}
 
 	async function saveSlashCommands() {
-		const url = 'http://' + window.location.hostname + ':8182/update'
-		await (await fetch(url, {
-			method: 'POST',
-			headers: {
-				token: getCookie('token'),
-				id: bot.id,
-			},
-			body: encodeURI(JSON.stringify(slashCommands, null))
-		}))
+		await saveCommands(bot.id, slashCommands)
 		window.location.reload(true);
 	}
 
@@ -109,7 +79,7 @@
 	}
 
 	function applyInternationalization(object, lang) {
-		if (document.querySelector("#overwrite-descriptions").checked) {
+		if (document.querySelector('#overwrite-descriptions').checked) {
 			object.description = lang.description;
 		}
 

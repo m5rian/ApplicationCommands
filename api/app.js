@@ -9,15 +9,17 @@ app.use(bodyParser.text());
 app.use(cors())
 
 app.get('/retrieve', async (req, res) => {
-    const token = req.header('token')
-    const id = req.header('id')
+    const token = req.header('token');
+    const id = req.header('id');
+    const scope = req.query.guild_id || 'global';
 
-    const url = 'https://discord.com/api/v8/applications/' + id + '/commands?with_localizations=true'
+    let url;
+    if (scope === 'global') url = 'https://discord.com/api/v8/applications/' + id + '/commands?with_localizations=true'
+    else url = `https://discord.com/api/v8/applications/${id}/guilds/${scope}/commands?with_localizations=false`;
+
     const promise = await fetch(url, {
         method: 'GET',
-        headers: {
-            Authorization: 'Bot ' + token
-        }
+        headers: {Authorization: 'Bot ' + token}
     })
     const response = await promise.json()
 

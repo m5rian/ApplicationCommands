@@ -5,67 +5,80 @@
 	import NavBar from '../components/NavBar.svelte';
 	import Loading from '../components/Loading.svelte';
 	import Popup from '../components/Popup.svelte';
-	import {createCommand, retrieveCommands, saveCommands} from '../commandsManager';
+	import {retrieveCommands, saveCommands} from '../commandsManager';
 
 	if (getCookie('token') == null) {
 		window.location.href = window.location.origin + '/login';
 	}
 
+	let scope = new URLSearchParams(window.location.search).get('scope') || 'global';
+
 	let bot;
-	let slashCommands = [];
+	let initialCommands = [];
+	let commands = [];
+	$: commands = commands
+		.filter(command => command !== undefined)
+		.filter(command => {
+			if (scope === 'global') return command.guild_id === undefined;
+			else return command.guild_id === scope;
+		});
+
 	let showJson = false;
 	let showLocalizationsInput = false;
 	let showCommandsInput = false;
-	$: slashCommands = slashCommands.filter(element => element !== undefined)
 
 	async function loadData() {
 		const urlBot = 'http://' + window.location.hostname + ':8182/bot'
 		bot = await (await fetch(urlBot, {headers: {token: getCookie('token'),}})).json()
 
-		slashCommands = await retrieveCommands(bot.id)
+		initialCommands = await retrieveCommands(bot.id, scope);
+		commands = JSON.parse(JSON.stringify(initialCommands));
 		return true
 	}
 
-	export function addCommand() {
+	export async function addCommand() {
 		const commandTemplate = {
 			name: 'command',
-			description: 'I can do cool stuff',
+			description: 'A small command description',
 			options: []
-		}
-		createCommand(bot.id, commandTemplate)
-	}
+		};
+		if (scope !== "global") commandTemplate.guild_id = scope;
 
-	async function applySlashCommands() {
-		const data = document.querySelector('#commands-input').value;
-		const commands = JSON.parse(data)
-		for (let command of commands) {
-			delete command.id;
-			delete command.application_id;
-		}
-		slashCommands = commands;
-		await saveSlashCommands()
+		commands = [...commands, commandTemplate];
+		await saveSlashCommands();
 	}
 
 	async function saveSlashCommands() {
-		await saveCommands(bot.id, slashCommands)
-		window.location.reload(true);
+		await saveCommands(bot.id, scope, commands)
+		window.location.reload();
+	}
+
+
+
+	async function applySlashCommands() {
+		const data = document.querySelector('#commands-input').value;
+		const importedCommands = JSON.parse(data)
+		for (let command of importedCommands) {
+			delete command.id;
+			delete command.application_id;
+		}
+		initialCommands = importedCommands;
+		await saveSlashCommands()
 	}
 
 	function copyToClipboard() {
-		navigator.clipboard.writeText(JSON.stringify(slashCommands))
+		navigator.clipboard.writeText(JSON.stringify(commands))
 	}
 
 	function loadFromClipboard() {
-		navigator.clipboard.readText().then(data => {
-			slashCommands = JSON.parse(data)
-		})
+		navigator.clipboard.readText().then(data => initialCommands = JSON.parse(data))
 	}
 
 	function saveLocalizations() {
 		const data = document.querySelector('#localizations-input').value
 		const internationalization = JSON.parse(data)
-		for (let i = 0; i < slashCommands.length; i++) {
-			const command = slashCommands[i]
+		for (let i = 0; i < commands.length; i++) {
+			const command = commands[i]
 
 			const lang = internationalization.find(it => it.name === command.name)
 			if (lang === undefined) continue;
@@ -73,7 +86,7 @@
 			namesToLowerCase(lang)
 			console.log(lang)
 			applyInternationalization(command, lang)
-			slashCommands[i] = command
+			commands[i] = command
 		}
 		//saveSlashCommands()
 	}
@@ -130,7 +143,7 @@
 
 	function copyLocalizations() {
 		const langs = []
-		for (let command of slashCommands) {
+		for (let command of commands) {
 			const lang = {}
 			lang.name = command.name
 			lang.name_localizations = command.name_localizations ? command.name_localizations : {}
@@ -162,7 +175,7 @@
 		<Loading/>
 	{:then _unused}
 		<Popup bind:active={showJson}>
-			<pre class="json">{JSON.stringify(slashCommands, null, 4)}</pre>
+			<pre class="json">{JSON.stringify(commands, null, 4)}</pre>
 		</Popup>
 		<Popup bind:active={showLocalizationsInput} onClose={saveLocalizations}>
 			<p>
@@ -176,11 +189,11 @@
 		</Popup>
 
 		<SvelteToast/>
-		<NavBar {bot}/>
+		<NavBar {bot} commands={commands}/>
 
 		<div class="page-content">
 			<div class="slashCommands-wrapper">
-				{#each slashCommands as slashCommand}
+				{#each commands as slashCommand}
 					<Command bind:slashCommand/>
 				{/each}
 			</div>

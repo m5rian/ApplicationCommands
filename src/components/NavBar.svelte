@@ -1,23 +1,30 @@
 <script>
 	import {onLogout} from '../Utilities';
-	import {retrieveCommands} from '../commandsManager';
 
 	export let bot
+	export let commands = [];
+	const scopes = new Set(commands.map(command => command.guild_id || 'global'));
+
+	let scopeInput = '';
+
+	function setScope(scope) {
+		const queryParams = new URLSearchParams(window.location.search);
+		queryParams.set('scope', scope);
+		location.search = '?' + queryParams.toString();
+	}
 </script>
 
 <div class="navbar">
 	<div class="bot-info">
 		<img alt="" src={"https://cdn.discordapp.com/avatars/" + bot["id"] + "/" + bot["avatar"] + ".png"}/>
 		<p>{bot["username"]}</p>
-		<select name="scope">
-			{#await retrieveCommands(bot.id)
-				.then(commands => commands.map(command => command.guild_id || "global"))
-				.then(scopes => new Set(scopes)) then scopes}
-				{#each Array.from(scopes) as scope}
-					<option value={scope}>{scope}</option>
-				{/each}
-			{/await}
-		</select>
+		<div>
+			<button on:click={() => setScope("global")}>Global</button>
+			<div>
+				<input bind:value={scopeInput} placeholder="Manage scope" type="text">
+				<i class="fa-solid fa-location-arrow" on:click={() => setScope(scopeInput)}></i>
+			</div>
+		</div>
 	</div>
 	<div class="byebye">
 		<i class="fas fa-sign-out-alt logout-button" on:click={onLogout}></i>

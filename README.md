@@ -8,6 +8,11 @@ You need to self host this, but I'm planning no hosting it in the future.
 ### 🌎 Global
 - [x] Slash commands
 - [ ] User commands
+- [ ] Message commands 
+
+### 🛡️ Guild specific
+- [x] Slash commands
+- [ ] User commands
 - [ ] Message commands
 
 ### 🪛 Slash commands
